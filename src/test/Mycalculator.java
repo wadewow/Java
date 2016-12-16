@@ -36,8 +36,6 @@ class CalculatorFrame extends JFrame{
             }
         });
     }
-
-
 }
 
 /**
@@ -63,8 +61,6 @@ class CalulatorPanel extends JPanel{
 
         this.add(BorderLayout.NORTH,display);
         this.add(BorderLayout.CENTER,jbutton_panel);
-
-
 
         //创建监听器对象
         Number_ActionListener NA = new Number_ActionListener();
@@ -133,8 +129,6 @@ class Operation_ActionListener implements ActionListener{
             command = input;
             flag = true;
         }
-
     }
-}
-
+  }
 }
