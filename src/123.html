@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>123</title>
+	<script>
+		function dis_alert(){
+			alert("这是一个警告框")
+		}
+
+		function dis_confirm(){
+			var resault = confirm("你需要点击“确定”或者“取消”");
+		}
+
+		function dis_prompt(){
+			var ball = prompt("我喜欢","xxx");
+			if (ball!=null && ball!="")
+		{
+			alert("你喜欢"+ball)
+		}
+		
+		}
+		</script>
+</head>
+<body>
+		<input type="button" name="alert" onclick="dis_alert()" value="弹出警告框alert" />
+		<input type="button" name="confirm" onclick="dis_confirm()" value="这是一个确认框confirm"/>
+		<input type="button" name="prompt" onclick="dis_prompt()" value="这是消息框prompt">
+</body>
+</html>
+
