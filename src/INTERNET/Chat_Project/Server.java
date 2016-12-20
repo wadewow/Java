@@ -32,22 +32,22 @@ public class Server {
 
 class ServerThread extends Thread{
 
-    private Socket socketll;
+    private Socket s;
     public ServerThread(Socket socket){
-        this.socketll = socket;
+        this.s = socket;
     }
 
     @Override
     public void run() {
         try {
             //获得客户端的输入流
-            BufferedReader br = new BufferedReader(new InputStreamReader(socketll.getInputStream()));
+            BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
             while (true){
                 //读取客户端的输入流
                 String contant = br.readLine();
                 //将客户端发送过来的信息分发给每一个客户端
                 for (Socket socket: Server.sockets){
-                    if (socket != this.socketll){
+                    if (socket != this.s){
                         OutputStreamWriter Osw = new OutputStreamWriter(socket.getOutputStream());
                         Osw.write(contant+"\n");
                         Osw.flush();
