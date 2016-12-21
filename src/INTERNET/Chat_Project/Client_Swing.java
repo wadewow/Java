@@ -71,7 +71,6 @@ public class Client_Swing extends JFrame{
                 try {
                     OutputStreamWriter osw = new OutputStreamWriter(s.getOutputStream());
                     String contant = textField.getText();
-                    System.out.println(contant);
                     osw.write(contant+"\n");
                     osw.flush();
                     textField.setText("");
@@ -91,11 +90,13 @@ public class Client_Swing extends JFrame{
         public void run() {
             try {
                 BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
+
                 while (true){
                     String contant = br.readLine();
-                    if (contant.equals("exit")){
-                        Client_Swing.this.dispose();
-                    }
+//                    if (contant.equals("exit")){
+//                        Client_Swing.this.dispose();
+//                        System.out.println("会退出吗？"+contant);
+//                    }
                     textArea.setText(textArea.getText()+contant+"\n");
                 }
             } catch (IOException e) {

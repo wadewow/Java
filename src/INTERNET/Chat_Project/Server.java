@@ -41,9 +41,9 @@ class ServerThread extends Thread{
     public void run() {
         try {
             //获得客户端的输入流
-            BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));   //当获得输入输出流的后就不用再次获取了
             //将登录信息分发给每一个在线的用户（除了自己）
-            String username = br.readLine();
+            String username = br.readLine();          //如果有流就会读取，没有留的话就会阻塞
             for (Socket socket: Server.sockets){
                 if (socket != this.s){
                     OutputStreamWriter Osw = new OutputStreamWriter(socket.getOutputStream());
@@ -54,7 +54,7 @@ class ServerThread extends Thread{
             while (true){
                 //读取客户端的输入流
                 System.out.println("来自客户端的流");
-                String contant = br.readLine();
+                String contant = br.readLine();        //如果有流就会读取，没有留的话就会阻塞（这TM非常重要）
                 //将客户端发送过来的信息分发给每一个客户端
                 for (Socket socket: Server.sockets){
                         OutputStreamWriter Osw = new OutputStreamWriter(socket.getOutputStream());
