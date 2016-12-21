@@ -34,13 +34,14 @@ public class Login extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+
                     Socket socket = new Socket("127.0.0.1",1027);
                     OutputStreamWriter osw = new OutputStreamWriter(socket.getOutputStream());
                     osw.write(inputUsername.getText()+"\n"); //传名字
                     osw.flush();
-                    new Client_Swing(socket);
-                    Login.this.dispose();    //这里搞的好苦啊。
-                    // 因为现在在输入文本域中所以要通过Login类来得到当前对象this窗体，才能使用dispose（）。
+                    new Client_Swing(socket,inputUsername.getText());
+                    Login.this.dispose();
+
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }

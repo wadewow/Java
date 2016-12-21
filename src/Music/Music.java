@@ -1,11 +1,14 @@
 package Music;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by wade on 2016/12/20.
@@ -20,6 +23,7 @@ public class Music extends JFrame {
     JTextArea displayArea = null;           //显示区域
     JScrollPane jScrollPane = null;        //滚动
     JButton openfolderButton = null;
+    JFileChooser chooser = null;
 
     public Music(){
 
@@ -66,7 +70,20 @@ public class Music extends JFrame {
         openfolderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+//                try {
+//                    Desktop.getDesktop().open(new File("/Users/wade/Desktop/照片"));
+//                } catch (IOException e1) {
+//                    e1.printStackTrace();
+//                }
+                chooser = new JFileChooser("/Users/wade/Desktop/music");
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("mp3","mp3");
+                chooser.setFileFilter(filter);
+                chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+                int returnVal = chooser.showOpenDialog(new Label("选择音乐"));
+                if(returnVal == JFileChooser.APPROVE_OPTION) {
+                    System.out.println("You chose to open this file: " + chooser.getSelectedFile().getName());
+                }
+                displayArea.setText(displayArea.getText()+chooser.getSelectedFile().getName()+"\n");
             }
         });
     }

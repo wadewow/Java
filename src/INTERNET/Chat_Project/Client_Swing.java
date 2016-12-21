@@ -24,11 +24,11 @@ public class Client_Swing extends JFrame{
     JScrollPane scroll = null;
 
     private Socket s = null;
+    private String name = null;
+    public Client_Swing(Socket s,String name){
 
-    public Client_Swing(Socket socket){
-
-        this.s = socket;
-
+        this.s = s;
+        this.name = name;
         //显示聊天内容
         textArea_Panel = new JPanel();
         textArea = new JTextArea(20,30);
@@ -47,7 +47,7 @@ public class Client_Swing extends JFrame{
 
         //基本配置
         this.setVisible(true);
-        this.setTitle("聊天");
+        this.setTitle(name);
         this.pack();
 
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -68,16 +68,13 @@ public class Client_Swing extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String contant = textField.getText();
                 try {
-                    OutputStreamWriter osw = new OutputStreamWriter(socket.getOutputStream());
-                    while (true){
-
-                        osw.write(contant+"\n");
-                        System.out.println(contant);
-                        osw.flush();
-                        textField.setText("");
-                    }
+                    OutputStreamWriter osw = new OutputStreamWriter(s.getOutputStream());
+                    String contant = textField.getText();
+                    System.out.println(contant);
+                    osw.write(contant+"\n");
+                    osw.flush();
+                    textField.setText("");
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -85,17 +82,20 @@ public class Client_Swing extends JFrame{
         });
         //启动"读取服务器信息的线程"
         new GetThreads().start();
-        System.out.println("接收线程开启");
     }
-
+    /**
+     * 读取服务器返回的信息
+     */
     class GetThreads extends Thread{
         @Override
         public void run() {
             try {
                 BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
                 while (true){
-
                     String contant = br.readLine();
+                    if (contant.equals("exit")){
+                        Client_Swing.this.dispose();
+                    }
                     textArea.setText(textArea.getText()+contant+"\n");
                 }
             } catch (IOException e) {
