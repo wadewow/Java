@@ -41,7 +41,6 @@ public class Login extends JFrame {
                     osw.flush();
                     new Client_Swing(socket,inputUsername.getText());
                     Login.this.dispose();
-
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }

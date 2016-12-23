@@ -32,7 +32,7 @@ public class Server {
 
 class ServerThread extends Thread{
 
-    private Socket s;
+    private Socket s;    //通过socket知道到底是谁，相当于每个客户端单独的管道
     public ServerThread(Socket socket){
         this.s = socket;
     }
@@ -53,13 +53,28 @@ class ServerThread extends Thread{
             }
             while (true){
                 //读取客户端的输入流
-                System.out.println("来自客户端的流");
-                String contant = br.readLine();        //如果有流就会读取，没有留的话就会阻塞（这TM非常重要）
                 //将客户端发送过来的信息分发给每一个客户端
-                for (Socket socket: Server.sockets){
+                //如果有流就会读取，没有留的话就会阻塞（这TM非常重要）
+                String contant = br.readLine();
+                if (contant.equals("exit")){
+                    for (Socket socket: Server.sockets){
                         OutputStreamWriter Osw = new OutputStreamWriter(socket.getOutputStream());
+                        Osw.write("[系统消息："+username+"]"+"已下线"+"\n");
                         Osw.write(username+":"+contant+"\n");
                         Osw.flush();
+                    }
+                    Server.sockets.remove(this.s);
+                    System.out.println("目前在线人数"+Server.sockets.size());
+                }else {
+                    for (Socket socket: Server.sockets){
+                        OutputStreamWriter Osw = new OutputStreamWriter(socket.getOutputStream());
+                        if (socket != this.s){
+                            Osw.write(username+":"+contant+"\n");
+                        }else {
+                            Osw.write("我"+":"+contant+"\n");
+                        }
+                        Osw.flush();
+                    }
                 }
             }
         } catch (IOException e) {

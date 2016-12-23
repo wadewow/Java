@@ -93,10 +93,11 @@ public class Client_Swing extends JFrame{
 
                 while (true){
                     String contant = br.readLine();
-//                    if (contant.equals("exit")){
-//                        Client_Swing.this.dispose();
-//                        System.out.println("会退出吗？"+contant);
-//                    }
+                    System.out.println("客户端接受服务器返回的消息--"+contant);
+                    if (contant.equals(name+":"+"exit")){   //输入"exit"的时候将会退出登录
+                        Client_Swing.this.dispose();
+                        //System.exit(0);
+                    }
                     textArea.setText(textArea.getText()+contant+"\n");
                 }
             } catch (IOException e) {
